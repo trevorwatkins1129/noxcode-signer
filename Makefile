@@ -1,6 +1,5 @@
 SHELL := /bin/bash
 doall:
-	$(info Building xcodeproj...)
     @xcodebuild -project ${appName}.xcodeproj \
 				-scheme ${appName} \
 				-sdk iphoneos \
@@ -11,10 +10,8 @@ doall:
 				DEVELOPMENT_TEAM=XYZ0123456 \
 				ORG_IDENTIFIER=com.${identifier} \
 				DWARF_DSYM_FOLDER_PATH="."
-	$(info Packing IPA...)
     mkdir Payload
 	mkdir Payload/${appName}.app
 	cp -R archive.xcarchive/Products/Applications/${appName}.app/ Payload/${appName}.app/
 	zip -r ${appName}.ipa Payload
-	$(info Injecting fakesign metadata...)
     ./fakesign.sh ${appName}.ipa
